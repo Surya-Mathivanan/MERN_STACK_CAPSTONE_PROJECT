@@ -43,16 +43,16 @@ graph TD
     N --> X[🔗 Direct Problem Links]
     N --> Y[📺 Video Recommendations]
     
-    style A fill:#cc00ff
-    style J fill:#652b6e
-    style K fill:#993399
-    style L fill:#cc66cc
-    style M fill:#ff99ff
-    style N fill:#ffccff
-    style B fill:#ff9933
-    style C fill:#ffcc
-    style I fill:#fff3e0
-    style E fill:#ffebee
+    style A fill:#b300e6
+    style J fill:#522653
+    style K fill:#8a2c8a
+    style L fill:#d98cd9
+    style M fill:#ffb3ff
+    style N fill:#ffe6ff
+    style B fill:#ff751a
+    style C fill:#ffd633
+    style I fill:#fff8e6
+    style E fill:#ffe6eb
 ```
 
 ## 🚀 What This Application Does
