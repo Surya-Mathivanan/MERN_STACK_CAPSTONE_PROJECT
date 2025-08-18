@@ -44,15 +44,15 @@ graph TD
     N --> Y[📺 Video Recommendations]
     
     style A fill:#b300e6
-    style J fill:#522653
-    style K fill:#8a2c8a
-    style L fill:#d98cd9
-    style M fill:#ffb3ff
-    style N fill:#ffe6ff
-    style B fill:#ff751a
-    style C fill:#ffd633
-    style I fill:#fff8e6
-    style E fill:#ffe6eb
+    style J fill:#b300e6
+    style K fill:#b300e6
+    style L fill:#b300e6
+    style M fill:#b300e6
+    style N fill:#b300e6
+    style B fill:#b300e6
+    style C fill:#b300e6
+    style I fill:#b300e6
+    style E fill:#b300e6
 ```
 
 ## 🚀 What This Application Does
