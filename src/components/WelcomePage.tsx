@@ -17,7 +17,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onStart }) => {
             DSA Learning Pathway
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Your personalized AI-powered journey to master Data Structures and Algorithms. 
+            Your personalized journey to master Data Structures and Algorithms. 
             Get customized learning paths, practice problems, and comprehensive resources.
           </p>
         </div>
@@ -48,7 +48,7 @@ const WelcomePage: React.FC<WelcomePageProps> = ({ onStart }) => {
         </button>
 
         <div className="mt-8 text-sm text-gray-500">
-          ✨ Powered by AI • 📚 Trusted by thousands • 🚀 Achieve your coding goals
+          ✨📚 Trusted by thousands • 🚀 Achieve your coding goals
         </div>
       </div>
     </div>
