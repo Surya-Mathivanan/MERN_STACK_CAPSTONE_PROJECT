@@ -1,6 +1,30 @@
 import React, { useState } from 'react';
 import { Download, FileText, Calendar, CheckCircle, Settings, ArrowLeft, BookOpen, Video, ExternalLink } from 'lucide-react';
-import { LearningPath, UserAssessment } from '../types';
+
+// Mock types for demonstration
+interface UserAssessment {
+  stage: string;
+  programmingLevel: string;
+  dailyHours: string;
+  goal: string;
+  languages: string[];
+}
+
+interface DayPlan {
+  day: number;
+  topic: string;
+  theory: string[];
+  practice: string[];
+  videos: string[];
+}
+
+interface LearningPath {
+  title: string;
+  description: string;
+  duration: string;
+  topics: string[];
+  dailyPlan: DayPlan[];
+}
 
 interface PDFDownloaderProps {
   onBack: () => void;
@@ -20,20 +44,19 @@ const PDFDownloader: React.FC<PDFDownloaderProps> = ({ onBack, assessment, learn
   const [isGenerating, setIsGenerating] = useState(false);
   const [generated, setGenerated] = useState(false);
 
-  const handleSectionToggle = (section: string) => {
+  const handleSectionToggle = (section: keyof typeof selectedSections) => {
     setSelectedSections(prev => ({
       ...prev,
       [section]: !prev[section]
     }));
   };
 
-  const generatePDF = () => {
+  const generatePDF = async () => {
     setIsGenerating(true);
     
-    // Simulate PDF generation
-    setTimeout(() => {
-      setIsGenerating(false);
-      setGenerated(true);
+    try {
+      // Simulate PDF generation with proper async handling
+      await new Promise(resolve => setTimeout(resolve, 3000));
       
       // Create a mock PDF content
       const pdfContent = generatePDFContent();
@@ -47,13 +70,18 @@ const PDFDownloader: React.FC<PDFDownloaderProps> = ({ onBack, assessment, learn
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
       
+      setGenerated(true);
       setTimeout(() => setGenerated(false), 3000);
-    }, 3000);
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
-  const generatePDFContent = () => {
+  const generatePDFContent = (): string => {
     let content = "DSA LEARNING PATHWAY - COMPREHENSIVE GUIDE\n";
-    content += "=" .repeat(50) + "\n\n";
+    content += "=".repeat(50) + "\n\n";
     
     if (selectedSections.profile) {
       content += "LEARNER PROFILE\n";
@@ -133,7 +161,10 @@ const PDFDownloader: React.FC<PDFDownloaderProps> = ({ onBack, assessment, learn
     { id: 'problems', title: 'Practice Problems', description: 'Curated coding challenges with links', icon: BookOpen },
     { id: 'videos', title: 'Video Resources', description: 'YouTube tutorial recommendations', icon: Video },
     { id: 'theory', title: 'Theory Articles', description: 'Reference materials and documentation', icon: FileText }
-  ];
+  ] as const;
+
+  const hasSelectedSections = Object.values(selectedSections).some(v => v);
+  const allSectionsDeselected = Object.values(selectedSections).every(v => !v);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-violet-50 py-12 px-4">
@@ -167,15 +198,24 @@ const PDFDownloader: React.FC<PDFDownloaderProps> = ({ onBack, assessment, learn
               <div
                 key={section.id}
                 className={`border-2 rounded-xl p-6 cursor-pointer transition-all duration-300 ${
-                  selectedSections[section.id as keyof typeof selectedSections]
+                  selectedSections[section.id]
                     ? 'border-purple-500 bg-purple-50'
                     : 'border-gray-200 bg-white hover:border-purple-300'
                 }`}
                 onClick={() => handleSectionToggle(section.id)}
+                role="checkbox"
+                aria-checked={selectedSections[section.id]}
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    handleSectionToggle(section.id);
+                  }
+                }}
               >
                 <div className="flex items-start space-x-4">
                   <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                    selectedSections[section.id as keyof typeof selectedSections]
+                    selectedSections[section.id]
                       ? 'bg-purple-600 text-white'
                       : 'bg-gray-100 text-gray-600'
                   }`}>
@@ -185,7 +225,7 @@ const PDFDownloader: React.FC<PDFDownloaderProps> = ({ onBack, assessment, learn
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-2">
                       <h3 className="font-semibold text-gray-900">{section.title}</h3>
-                      {selectedSections[section.id as keyof typeof selectedSections] && (
+                      {selectedSections[section.id] && (
                         <CheckCircle className="w-5 h-5 text-purple-600" />
                       )}
                     </div>
@@ -237,9 +277,9 @@ const PDFDownloader: React.FC<PDFDownloaderProps> = ({ onBack, assessment, learn
           {!isGenerating && !generated && (
             <button
               onClick={generatePDF}
-              disabled={Object.values(selectedSections).every(v => !v)}
+              disabled={allSectionsDeselected}
               className={`inline-flex items-center px-12 py-4 rounded-2xl font-bold text-lg transition-all duration-300 ${
-                Object.values(selectedSections).some(v => v)
+                hasSelectedSections
                   ? 'bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 text-white shadow-xl hover:shadow-2xl transform hover:-translate-y-1'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
               }`}
@@ -263,7 +303,7 @@ const PDFDownloader: React.FC<PDFDownloaderProps> = ({ onBack, assessment, learn
             </div>
           )}
           
-          {Object.values(selectedSections).every(v => !v) && (
+          {allSectionsDeselected && (
             <p className="text-gray-500 mt-4">Please select at least one section to generate PDF</p>
           )}
         </div>
@@ -286,4 +326,59 @@ const PDFDownloader: React.FC<PDFDownloaderProps> = ({ onBack, assessment, learn
   );
 };
 
-export default PDFDownloader;
+// Demo component with mock data for testing
+const PDFDownloaderDemo = () => {
+  const mockAssessment: UserAssessment = {
+    stage: "Beginner",
+    programmingLevel: "Intermediate",
+    dailyHours: "2-3 hours",
+    goal: "Get job ready",
+    languages: ["JavaScript", "Python"]
+  };
+
+  const mockLearningPath: LearningPath = {
+    title: "Complete DSA Mastery Path",
+    description: "Comprehensive data structures and algorithms learning journey",
+    duration: "12 weeks",
+    topics: ["Arrays", "Linked Lists", "Stacks & Queues", "Trees", "Graphs", "Dynamic Programming"],
+    dailyPlan: [
+      {
+        day: 1,
+        topic: "Introduction to Arrays",
+        theory: ["Array basics", "Memory allocation"],
+        practice: ["Two Sum", "Find Maximum"],
+        videos: ["Array fundamentals", "Common patterns"]
+      },
+      {
+        day: 2,
+        topic: "Array Manipulation",
+        theory: ["Sorting algorithms", "Searching techniques"],
+        practice: ["Binary Search", "Merge Sort"],
+        videos: ["Sorting visualized", "Search techniques"]
+      }
+    ]
+  };
+
+  const [showDemo, setShowDemo] = useState(true);
+
+  if (showDemo) {
+    return <PDFDownloader 
+      onBack={() => setShowDemo(false)} 
+      assessment={mockAssessment} 
+      learningPath={mockLearningPath} 
+    />;
+  }
+
+  return (
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <button 
+        onClick={() => setShowDemo(true)}
+        className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+      >
+        Show PDF Downloader Demo
+      </button>
+    </div>
+  );
+};
+
+export default PDFDownloaderDemo;
