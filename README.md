@@ -43,8 +43,14 @@ graph TD
     N --> X[🔗 Direct Problem Links]
     N --> Y[📺 Video Recommendations]
     
-    style A fill:#e1f5fe
-    style J fill:#f3e5f5
+    style A fill:#cc00ff
+    style J fill:#652b6e
+    style K fill:#993399
+    style L fill:#cc66cc
+    style M fill:#ff99ff
+    style N fill:#ffccff
+    style B fill:#ff9933
+    style C fill:#ffcc
     style I fill:#fff3e0
     style E fill:#ffebee
 ```
