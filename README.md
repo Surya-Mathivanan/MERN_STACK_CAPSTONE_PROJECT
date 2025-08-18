@@ -1,4 +1,4 @@
-# AI-Powered DSA Learning Pathway Application
+# DSA Learning Pathway Application
 
 An intelligent learning platform that creates personalized Data Structures and Algorithms learning paths based on user assessment and skill level verification. Master DSA concepts through adaptive learning, curated practice problems, and comprehensive study materials.
 
@@ -33,8 +33,8 @@ Before you begin, ensure you have the following installed:
 
 ### 1. Clone the Repository
 ```bash
-git clone <repository-url>
-cd ai-dsa-learning-pathway
+git clone https://github.com/Surya-Mathivanan/MERN_STACK_CAPSTONE_PROJECT
+cd dsa-learning-pathway
 ```
 
 ### 2. Install Dependencies
