@@ -1,30 +1,6 @@
 import React, { useState } from 'react';
-import { Download, FileText, Calendar, CheckCircle, Settings, ArrowLeft, BookOpen, Video, ExternalLink } from 'lucide-react';
-
-// Mock types for demonstration
-interface UserAssessment {
-  stage: string;
-  programmingLevel: string;
-  dailyHours: string;
-  goal: string;
-  languages: string[];
-}
-
-interface DayPlan {
-  day: number;
-  topic: string;
-  theory: string[];
-  practice: string[];
-  videos: string[];
-}
-
-interface LearningPath {
-  title: string;
-  description: string;
-  duration: string;
-  topics: string[];
-  dailyPlan: DayPlan[];
-}
+import { Download, FileText, Calendar, CheckCircle, Settings, ArrowLeft, BookOpen, Video, ExternalLink, Sparkles } from 'lucide-react';
+import { UserAssessment, LearningPath } from '../types';
 
 interface PDFDownloaderProps {
   onBack: () => void;
@@ -155,57 +131,74 @@ const PDFDownloader: React.FC<PDFDownloaderProps> = ({ onBack, assessment, learn
   };
 
   const sections = [
-    { id: 'profile', title: 'Learner Profile', description: 'Your assessment results and preferences', icon: Settings },
-    { id: 'roadmap', title: 'Learning Roadmap', description: 'Personalized learning path and topics', icon: Calendar },
-    { id: 'schedule', title: 'Daily Schedule', description: 'Day-wise learning plan with tasks', icon: Calendar },
-    { id: 'problems', title: 'Practice Problems', description: 'Curated coding challenges with links', icon: BookOpen },
-    { id: 'videos', title: 'Video Resources', description: 'YouTube tutorial recommendations', icon: Video },
-    { id: 'theory', title: 'Theory Articles', description: 'Reference materials and documentation', icon: FileText }
+    { id: 'profile', title: 'Learner Profile', description: 'Your assessment results and preferences', icon: Settings, gradient: 'from-periwinkle to-dusty-rose' },
+    { id: 'roadmap', title: 'Learning Roadmap', description: 'Personalized learning path and topics', icon: Calendar, gradient: 'from-dusty-rose to-pale-pink' },
+    { id: 'schedule', title: 'Daily Schedule', description: 'Day-wise learning plan with tasks', icon: Calendar, gradient: 'from-pale-pink to-periwinkle' },
+    { id: 'problems', title: 'Practice Problems', description: 'Curated coding challenges with links', icon: BookOpen, gradient: 'from-periwinkle to-dusty-rose' },
+    { id: 'videos', title: 'Video Resources', description: 'YouTube tutorial recommendations', icon: Video, gradient: 'from-dusty-rose to-pale-pink' },
+    { id: 'theory', title: 'Theory Articles', description: 'Reference materials and documentation', icon: FileText, gradient: 'from-pale-pink to-periwinkle' }
   ] as const;
 
   const hasSelectedSections = Object.values(selectedSections).some(v => v);
   const allSectionsDeselected = Object.values(selectedSections).every(v => !v);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50 to-violet-50 py-12 px-4">
-      <div className="max-w-5xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-space-dark via-space-blue to-dark-navy py-12 px-4 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-10 w-2 h-2 bg-periwinkle rounded-full animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-1 h-1 bg-dusty-rose rounded-full animate-pulse delay-1000"></div>
+        <div className="absolute bottom-32 left-1/4 w-1.5 h-1.5 bg-pale-pink rounded-full animate-pulse delay-500"></div>
+        <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-periwinkle rounded-full animate-pulse delay-700"></div>
+        <div className="absolute bottom-20 right-10 w-2 h-2 bg-dusty-rose rounded-full animate-pulse delay-300"></div>
+      </div>
+
+      <div className="max-w-5xl mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 animate-fade-in">
           <button
             onClick={onBack}
-            className="inline-flex items-center text-gray-600 hover:text-gray-800 mb-6 transition-colors duration-200"
+            className="inline-flex items-center text-pale-pink/60 hover:text-white mb-6 transition-colors duration-200 bg-space-light/30 hover:bg-space-light/50 px-4 py-2 rounded-xl border border-periwinkle/20 backdrop-blur-sm"
           >
             <ArrowLeft className="w-5 h-5 mr-2" />
             Back to Dashboard
           </button>
           
-          <Download className="w-16 h-16 text-purple-600 mx-auto mb-4" />
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">PDF Study Guide Generator</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+          <div className="w-16 h-16 bg-gradient-to-br from-periwinkle to-dusty-rose rounded-2xl mx-auto mb-4 flex items-center justify-center animate-glow">
+            <Download className="w-10 h-10 text-white" />
+          </div>
+          <div className="absolute top-8 left-1/2 transform -translate-x-1/2 -translate-y-2">
+            <Sparkles className="w-6 h-6 text-pale-pink animate-bounce" />
+          </div>
+          <h1 className="text-4xl font-bold text-white mb-2">PDF Study Guide Generator</h1>
+          <p className="text-xl text-pale-pink/70 max-w-2xl mx-auto">
             Create a comprehensive offline study guide with your personalized learning path
           </p>
         </div>
 
         {/* PDF Preview */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-xl p-8 mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-            <FileText className="w-8 h-8 mr-3 text-purple-600" />
+        <div className="bg-space-light/30 backdrop-blur-sm rounded-3xl shadow-xl p-8 mb-8 border border-periwinkle/20 animate-slide-up">
+          <h2 className="text-2xl font-bold text-white mb-6 flex items-center">
+            <div className="w-8 h-8 bg-gradient-to-br from-periwinkle to-dusty-rose rounded-lg mr-3 flex items-center justify-center">
+              <FileText className="w-5 h-5 text-white" />
+            </div>
             PDF Content Selection
           </h2>
           
           <div className="grid md:grid-cols-2 gap-6">
-            {sections.map((section) => (
+            {sections.map((section, index) => (
               <div
                 key={section.id}
-                className={`border-2 rounded-xl p-6 cursor-pointer transition-all duration-300 ${
+                className={`group border-2 rounded-xl p-6 cursor-pointer transition-all duration-300 animate-slide-up ${
                   selectedSections[section.id]
-                    ? 'border-purple-500 bg-purple-50'
-                    : 'border-gray-200 bg-white hover:border-purple-300'
+                    ? 'border-periwinkle/40 bg-gradient-to-br from-periwinkle/10 to-dusty-rose/10 shadow-lg'
+                    : 'border-periwinkle/20 bg-space-light/30 hover:border-periwinkle/40 hover:bg-space-light/50'
                 }`}
                 onClick={() => handleSectionToggle(section.id)}
                 role="checkbox"
                 aria-checked={selectedSections[section.id]}
                 tabIndex={0}
+                style={{ animationDelay: `${200 + index * 100}ms` }}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
@@ -214,22 +207,22 @@ const PDFDownloader: React.FC<PDFDownloaderProps> = ({ onBack, assessment, learn
                 }}
               >
                 <div className="flex items-start space-x-4">
-                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center transition-all duration-300 ${
                     selectedSections[section.id]
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-gray-100 text-gray-600'
+                      ? `bg-gradient-to-br ${section.gradient} text-white shadow-lg`
+                      : 'bg-space-light/50 text-pale-pink/70 group-hover:bg-space-light/70'
                   }`}>
                     <section.icon className="w-6 h-6" />
                   </div>
                   
                   <div className="flex-1">
                     <div className="flex items-center justify-between mb-2">
-                      <h3 className="font-semibold text-gray-900">{section.title}</h3>
+                      <h3 className="font-semibold text-white group-hover:text-periwinkle transition-colors duration-300">{section.title}</h3>
                       {selectedSections[section.id] && (
-                        <CheckCircle className="w-5 h-5 text-purple-600" />
+                        <CheckCircle className="w-5 h-5 text-periwinkle animate-pulse" />
                       )}
                     </div>
-                    <p className="text-sm text-gray-600">{section.description}</p>
+                    <p className="text-sm text-pale-pink/70">{section.description}</p>
                   </div>
                 </div>
               </div>
@@ -238,34 +231,34 @@ const PDFDownloader: React.FC<PDFDownloaderProps> = ({ onBack, assessment, learn
         </div>
 
         {/* PDF Features */}
-        <div className="bg-gradient-to-r from-purple-600 to-violet-600 rounded-3xl shadow-xl p-8 mb-8 text-white">
+        <div className="bg-gradient-to-r from-periwinkle to-dusty-rose rounded-3xl shadow-xl p-8 mb-8 text-white animate-slide-up delay-400">
           <h2 className="text-2xl font-bold mb-6">What's Included in Your PDF</h2>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
-                <CheckCircle className="w-5 h-5 text-green-300" />
+                <CheckCircle className="w-5 h-5 text-pale-pink/90" />
                 <span>Complete day-wise learning schedule</span>
               </div>
               <div className="flex items-center space-x-3">
-                <CheckCircle className="w-5 h-5 text-green-300" />
+                <CheckCircle className="w-5 h-5 text-pale-pink/90" />
                 <span>Direct links to practice problems</span>
               </div>
               <div className="flex items-center space-x-3">
-                <CheckCircle className="w-5 h-5 text-green-300" />
+                <CheckCircle className="w-5 h-5 text-pale-pink/90" />
                 <span>YouTube video recommendations</span>
               </div>
             </div>
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
-                <CheckCircle className="w-5 h-5 text-green-300" />
+                <CheckCircle className="w-5 h-5 text-pale-pink/90" />
                 <span>Theory articles and references</span>
               </div>
               <div className="flex items-center space-x-3">
-                <CheckCircle className="w-5 h-5 text-green-300" />
+                <CheckCircle className="w-5 h-5 text-pale-pink/90" />
                 <span>Progress tracking checklist</span>
               </div>
               <div className="flex items-center space-x-3">
-                <CheckCircle className="w-5 h-5 text-green-300" />
+                <CheckCircle className="w-5 h-5 text-pale-pink/90" />
                 <span>Offline access for study anywhere</span>
               </div>
             </div>
@@ -273,15 +266,15 @@ const PDFDownloader: React.FC<PDFDownloaderProps> = ({ onBack, assessment, learn
         </div>
 
         {/* Generate Button */}
-        <div className="text-center">
+        <div className="text-center animate-slide-up delay-500">
           {!isGenerating && !generated && (
             <button
               onClick={generatePDF}
               disabled={allSectionsDeselected}
               className={`inline-flex items-center px-12 py-4 rounded-2xl font-bold text-lg transition-all duration-300 ${
                 hasSelectedSections
-                  ? 'bg-gradient-to-r from-purple-600 to-violet-600 hover:from-purple-700 hover:to-violet-700 text-white shadow-xl hover:shadow-2xl transform hover:-translate-y-1'
-                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  ? 'bg-gradient-to-r from-periwinkle to-dusty-rose hover:from-periwinkle/90 hover:to-dusty-rose/90 text-white shadow-xl hover:shadow-2xl transform hover:-translate-y-1'
+                  : 'bg-space-light/30 text-pale-pink/50 cursor-not-allowed border border-periwinkle/20'
               }`}
             >
               <Download className="w-6 h-6 mr-3" />
@@ -290,31 +283,31 @@ const PDFDownloader: React.FC<PDFDownloaderProps> = ({ onBack, assessment, learn
           )}
           
           {isGenerating && (
-            <div className="inline-flex items-center px-12 py-4 bg-purple-600 text-white rounded-2xl font-bold text-lg">
+            <div className="inline-flex items-center px-12 py-4 bg-gradient-to-r from-periwinkle to-dusty-rose text-white rounded-2xl font-bold text-lg">
               <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white mr-3"></div>
               Generating Your PDF...
             </div>
           )}
           
           {generated && (
-            <div className="inline-flex items-center px-12 py-4 bg-green-600 text-white rounded-2xl font-bold text-lg">
+            <div className="inline-flex items-center px-12 py-4 bg-gradient-to-r from-periwinkle/80 to-dusty-rose/80 text-white rounded-2xl font-bold text-lg animate-pulse">
               <CheckCircle className="w-6 h-6 mr-3" />
               PDF Generated Successfully!
             </div>
           )}
           
           {allSectionsDeselected && (
-            <p className="text-gray-500 mt-4">Please select at least one section to generate PDF</p>
+            <p className="text-pale-pink/60 mt-4">Please select at least one section to generate PDF</p>
           )}
         </div>
 
         {/* Info Note */}
-        <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6 mt-8">
+        <div className="bg-space-light/30 border border-periwinkle/20 rounded-2xl p-6 mt-8 backdrop-blur-sm animate-fade-in delay-600">
           <div className="flex items-start space-x-3">
-            <ExternalLink className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
+            <ExternalLink className="w-6 h-6 text-periwinkle flex-shrink-0 mt-1" />
             <div>
-              <h3 className="font-semibold text-blue-900 mb-2">Note about External Links</h3>
-              <p className="text-blue-700 text-sm leading-relaxed">
+              <h3 className="font-semibold text-white mb-2">Note about External Links</h3>
+              <p className="text-pale-pink/70 text-sm leading-relaxed">
                 The generated PDF will contain direct links to practice problems, videos, and articles. 
                 While the PDF can be used offline, you'll need an internet connection to access the linked resources.
               </p>
@@ -326,59 +319,4 @@ const PDFDownloader: React.FC<PDFDownloaderProps> = ({ onBack, assessment, learn
   );
 };
 
-// Demo component with mock data for testing
-const PDFDownloaderDemo = () => {
-  const mockAssessment: UserAssessment = {
-    stage: "Beginner",
-    programmingLevel: "Intermediate",
-    dailyHours: "2-3 hours",
-    goal: "Get job ready",
-    languages: ["JavaScript", "Python"]
-  };
-
-  const mockLearningPath: LearningPath = {
-    title: "Complete DSA Mastery Path",
-    description: "Comprehensive data structures and algorithms learning journey",
-    duration: "12 weeks",
-    topics: ["Arrays", "Linked Lists", "Stacks & Queues", "Trees", "Graphs", "Dynamic Programming"],
-    dailyPlan: [
-      {
-        day: 1,
-        topic: "Introduction to Arrays",
-        theory: ["Array basics", "Memory allocation"],
-        practice: ["Two Sum", "Find Maximum"],
-        videos: ["Array fundamentals", "Common patterns"]
-      },
-      {
-        day: 2,
-        topic: "Array Manipulation",
-        theory: ["Sorting algorithms", "Searching techniques"],
-        practice: ["Binary Search", "Merge Sort"],
-        videos: ["Sorting visualized", "Search techniques"]
-      }
-    ]
-  };
-
-  const [showDemo, setShowDemo] = useState(true);
-
-  if (showDemo) {
-    return <PDFDownloader 
-      onBack={() => setShowDemo(false)} 
-      assessment={mockAssessment} 
-      learningPath={mockLearningPath} 
-    />;
-  }
-
-  return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <button 
-        onClick={() => setShowDemo(true)}
-        className="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-      >
-        Show PDF Downloader Demo
-      </button>
-    </div>
-  );
-};
-
-export default PDFDownloaderDemo;
+export default PDFDownloader;

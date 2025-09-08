@@ -122,76 +122,79 @@ const VideoLearning: React.FC<VideoLearningProps> = ({ onBack }) => {
   const creators = Array.from(new Set(videos.map(v => v.creator)));
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-red-50 to-pink-50 py-12 px-4">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-space-dark via-space-blue to-dark-navy py-12 px-4 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0">
+        <div className="absolute top-20 left-10 w-2 h-2 bg-periwinkle rounded-full animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-1 h-1 bg-dusty-rose rounded-full animate-pulse delay-1000"></div>
+        <div className="absolute bottom-32 left-1/4 w-1.5 h-1.5 bg-pale-pink rounded-full animate-pulse delay-500"></div>
+        <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-periwinkle rounded-full animate-pulse delay-700"></div>
+        <div className="absolute bottom-20 right-10 w-2 h-2 bg-dusty-rose rounded-full animate-pulse delay-300"></div>
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
-        <div className="text-center mb-12">
-          <button
-            onClick={onBack}
-            className="inline-flex items-center text-gray-600 hover:text-gray-800 mb-6 transition-colors duration-200"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2" />
-            Back to Dashboard
-          </button>
-          
-          <Video className="w-16 h-16 text-red-600 mx-auto mb-4" />
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Learn with YouTube</h1>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+        <div className="text-center mb-12 animate-fade-in">
+          <div className="w-16 h-16 bg-gradient-to-br from-dusty-rose to-pale-pink rounded-2xl mx-auto mb-4 flex items-center justify-center animate-glow">
+            <Video className="w-10 h-10 text-white" />
+          </div>
+          <h1 className="text-4xl font-bold text-white mb-2">Learn with YouTube</h1>
+          <p className="text-xl text-pale-pink/70 max-w-2xl mx-auto">
             Curated video tutorials from top programming educators
           </p>
         </div>
 
         {/* Stats Cards */}
         <div className="grid md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+          <div className="bg-space-light/30 backdrop-blur-sm rounded-2xl p-6 border border-dusty-rose/20 animate-slide-up">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-3xl font-bold text-gray-900">{videos.length}</p>
-                <p className="text-gray-600">Total Videos</p>
+                <p className="text-3xl font-bold text-white">{videos.length}</p>
+                <p className="text-pale-pink/70">Total Videos</p>
               </div>
-              <div className="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center">
-                <Play className="w-6 h-6 text-red-600" />
+              <div className="w-12 h-12 bg-gradient-to-br from-dusty-rose/20 to-pale-pink/20 rounded-full flex items-center justify-center">
+                <Play className="w-6 h-6 text-dusty-rose" />
               </div>
             </div>
           </div>
           
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+          <div className="bg-space-light/30 backdrop-blur-sm rounded-2xl p-6 border border-periwinkle/20 animate-slide-up delay-100">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-3xl font-bold text-gray-900">{creators.length}</p>
-                <p className="text-gray-600">Expert Creators</p>
+                <p className="text-3xl font-bold text-white">{creators.length}</p>
+                <p className="text-pale-pink/70">Expert Creators</p>
               </div>
-              <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                <User className="w-6 h-6 text-blue-600" />
+              <div className="w-12 h-12 bg-gradient-to-br from-periwinkle/20 to-dusty-rose/20 rounded-full flex items-center justify-center">
+                <User className="w-6 h-6 text-periwinkle" />
               </div>
             </div>
           </div>
           
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
+          <div className="bg-space-light/30 backdrop-blur-sm rounded-2xl p-6 border border-pale-pink/20 animate-slide-up delay-200">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-3xl font-bold text-gray-900">{topics.length}</p>
-                <p className="text-gray-600">Topics Covered</p>
+                <p className="text-3xl font-bold text-white">{topics.length}</p>
+                <p className="text-pale-pink/70">Topics Covered</p>
               </div>
-              <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                <Video className="w-6 h-6 text-green-600" />
+              <div className="w-12 h-12 bg-gradient-to-br from-pale-pink/20 to-periwinkle/20 rounded-full flex items-center justify-center">
+                <Video className="w-6 h-6 text-pale-pink" />
               </div>
             </div>
           </div>
         </div>
 
         {/* Filters */}
-        <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg mb-8">
+        <div className="bg-space-light/30 backdrop-blur-sm rounded-2xl p-6 border border-periwinkle/20 mb-8 animate-slide-up delay-300">
           <div className="flex flex-wrap gap-4 items-center">
             <div className="flex items-center space-x-2">
-              <Filter className="w-5 h-5 text-gray-500" />
-              <span className="font-semibold text-gray-700">Filters:</span>
+              <Filter className="w-5 h-5 text-pale-pink/60" />
+              <span className="font-semibold text-white">Filters:</span>
             </div>
             
             <select
               value={selectedTopic}
               onChange={(e) => setSelectedTopic(e.target.value)}
-              className="px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="px-4 py-2 rounded-lg bg-space-light/50 border border-periwinkle/30 text-white focus:outline-none focus:ring-2 focus:ring-dusty-rose/50 backdrop-blur-sm"
             >
               <option value="all">All Topics</option>
               {topics.map(topic => (
@@ -202,7 +205,7 @@ const VideoLearning: React.FC<VideoLearningProps> = ({ onBack }) => {
             <select
               value={selectedCreator}
               onChange={(e) => setSelectedCreator(e.target.value)}
-              className="px-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500"
+              className="px-4 py-2 rounded-lg bg-space-light/50 border border-periwinkle/30 text-white focus:outline-none focus:ring-2 focus:ring-dusty-rose/50 backdrop-blur-sm"
             >
               <option value="all">All Creators</option>
               {creators.map(creator => (
@@ -212,13 +215,13 @@ const VideoLearning: React.FC<VideoLearningProps> = ({ onBack }) => {
             
             <div className="flex-1 min-w-64">
               <div className="relative">
-                <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2" />
+                <Search className="w-5 h-5 text-pale-pink/60 absolute left-3 top-1/2 transform -translate-y-1/2" />
                 <input
                   type="text"
                   placeholder="Search videos..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className="w-full pl-10 pr-4 py-2 rounded-lg bg-space-light/50 border border-periwinkle/30 text-white placeholder-pale-pink/50 focus:outline-none focus:ring-2 focus:ring-dusty-rose/50 backdrop-blur-sm"
                 />
               </div>
             </div>
@@ -226,11 +229,12 @@ const VideoLearning: React.FC<VideoLearningProps> = ({ onBack }) => {
         </div>
 
         {/* Videos Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {filteredVideos.map((video, index) => (
             <div
               key={index}
-              className="bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              className="group bg-space-light/30 backdrop-blur-sm rounded-2xl overflow-hidden border border-periwinkle/20 hover:border-dusty-rose/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-dusty-rose/10 animate-slide-up"
+              style={{ animationDelay: `${400 + index * 50}ms` }}
             >
               <div className="relative">
                 <img
@@ -238,39 +242,42 @@ const VideoLearning: React.FC<VideoLearningProps> = ({ onBack }) => {
                   alt={video.title}
                   className="w-full h-48 object-cover"
                 />
-                <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                  <Play className="w-16 h-16 text-white" />
+                <div className="absolute inset-0 bg-gradient-to-t from-space-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="w-16 h-16 bg-gradient-to-br from-dusty-rose to-pale-pink rounded-full flex items-center justify-center transform scale-0 group-hover:scale-100 transition-transform duration-300">
+                    <Play className="w-8 h-8 text-white ml-1" />
+                  </div>
                 </div>
-                <div className="absolute bottom-2 right-2 bg-black bg-opacity-80 text-white px-2 py-1 rounded text-sm">
+                <div className="absolute bottom-2 right-2 bg-space-dark/80 text-white px-2 py-1 rounded text-sm backdrop-blur-sm border border-pale-pink/20">
                   {video.duration}
+                </div>
+                <div className="absolute top-2 left-2">
+                  <span className="px-3 py-1 bg-dusty-rose/20 text-dusty-rose rounded-full text-xs font-semibold border border-dusty-rose/30 backdrop-blur-sm">
+                    {video.topic}
+                  </span>
                 </div>
               </div>
               
               <div className="p-6">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="px-3 py-1 bg-red-100 text-red-600 rounded-full text-xs font-semibold">
-                    {video.topic}
-                  </span>
-                  <div className="flex items-center text-gray-500 text-sm">
-                    <Clock className="w-4 h-4 mr-1" />
-                    {video.duration}
-                  </div>
-                </div>
-                
-                <h3 className="text-lg font-bold text-gray-900 mb-2 leading-tight">
+                <h3 className="text-lg font-bold text-white mb-2 leading-tight group-hover:text-dusty-rose transition-colors duration-300">
                   {video.title}
                 </h3>
                 
-                <div className="flex items-center text-gray-600 mb-4">
-                  <User className="w-4 h-4 mr-2" />
-                  <span className="text-sm">{video.creator}</span>
+                <div className="flex items-center justify-between text-pale-pink/70 mb-4">
+                  <div className="flex items-center">
+                    <User className="w-4 h-4 mr-2" />
+                    <span className="text-sm">{video.creator}</span>
+                  </div>
+                  <div className="flex items-center text-sm">
+                    <Clock className="w-4 h-4 mr-1" />
+                    {video.duration}
+                  </div>
                 </div>
                 
                 <a
                   href={video.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center w-full px-4 py-3 bg-gradient-to-r from-red-600 to-pink-600 hover:from-red-700 hover:to-pink-700 text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg transform hover:-translate-y-0.5"
+                  className="inline-flex items-center justify-center w-full px-4 py-3 bg-gradient-to-r from-dusty-rose to-pale-pink hover:from-dusty-rose/90 hover:to-pale-pink/90 text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg transform hover:-translate-y-0.5"
                 >
                   Watch Video
                   <ExternalLink className="w-4 h-4 ml-2" />
@@ -281,14 +288,25 @@ const VideoLearning: React.FC<VideoLearningProps> = ({ onBack }) => {
         </div>
 
         {filteredVideos.length === 0 && (
-          <div className="text-center py-12">
-            <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Search className="w-8 h-8 text-gray-400" />
+          <div className="text-center py-12 animate-fade-in">
+            <div className="w-24 h-24 bg-space-light/30 rounded-full flex items-center justify-center mx-auto mb-4 border border-periwinkle/20">
+              <Search className="w-8 h-8 text-pale-pink/60" />
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">No videos found</h3>
-            <p className="text-gray-600">Try adjusting your filters or search terms</p>
+            <h3 className="text-xl font-semibold text-white mb-2">No videos found</h3>
+            <p className="text-pale-pink/70">Try adjusting your filters or search terms</p>
           </div>
         )}
+
+        {/* Back Button */}
+        <div className="mt-12 text-center animate-fade-in">
+          <button
+            onClick={onBack}
+            className="inline-flex items-center px-6 py-3 bg-space-light/50 hover:bg-space-light/70 text-white rounded-xl transition-all duration-200 border border-periwinkle/20 hover:border-periwinkle/40 backdrop-blur-sm"
+          >
+            <ArrowLeft className="w-5 h-5 mr-2" />
+            Back to Dashboard
+          </button>
+        </div>
       </div>
     </div>
   );

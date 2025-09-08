@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import WelcomePage from './components/WelcomePage';
 import AssessmentForm from './components/AssessmentForm';
 import SkillVerificationQuiz from './components/SkillVerificationQuiz';
@@ -7,8 +7,14 @@ import PracticeProblems from './components/PracticeProblems';
 import VideoLearning from './components/VideoLearning';
 import TheoryContent from './components/TheoryContent';
 import PDFDownloader from './components/PDFDownloader';
+import Navigation from './components/Navigation';
+import LoginPage from './components/LoginPage';
 import { UserAssessment, LearningPath } from './types';
 import { generateLearningPath } from './data/learningPaths';
+
+// Firebase imports would go here
+// import { initializeApp } from 'firebase/app';
+// import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/firebase-auth';
 
 type AppState = 'welcome' | 'assessment' | 'quiz' | 'dashboard' | 'practice' | 'videos' | 'theory' | 'pdf';
 
@@ -16,6 +22,26 @@ function App() {
   const [currentState, setCurrentState] = useState<AppState>('welcome');
   const [assessment, setAssessment] = useState<UserAssessment | null>(null);
   const [learningPath, setLearningPath] = useState<LearningPath | null>(null);
+  const [user, setUser] = useState<any>(null);
+
+  // Mock Firebase authentication - replace with actual Firebase auth
+  const handleGoogleSignIn = async () => {
+    // Mock successful login
+    const mockUser = {
+      displayName: 'Test User',
+      email: 'test@example.com',
+      photoURL: 'https://via.placeholder.com/150'
+    };
+    setUser(mockUser);
+    setCurrentState('welcome');
+  };
+
+  const handleSignOut = () => {
+    setUser(null);
+    setCurrentState('welcome');
+    setAssessment(null);
+    setLearningPath(null);
+  };
 
   const handleStart = () => {
     setCurrentState('assessment');
@@ -23,14 +49,12 @@ function App() {
 
   const handleAssessmentComplete = (userAssessment: UserAssessment) => {
     if (userAssessment.programmingLevel === 'Beginner') {
-      // Skip quiz for beginners
       const completedAssessment = { ...userAssessment, verified: true };
       setAssessment(completedAssessment);
       const path = generateLearningPath(completedAssessment);
       setLearningPath(path);
       setCurrentState('dashboard');
     } else {
-      // Require quiz for intermediate/advanced
       setAssessment(userAssessment);
       setCurrentState('quiz');
     }
@@ -42,7 +66,6 @@ function App() {
         ...assessment,
         verified: passed,
         quizScore: score,
-        // Downgrade level if failed
         programmingLevel: passed ? assessment.programmingLevel : 
           (assessment.programmingLevel === 'Advanced' ? 'Intermediate' : 'Beginner')
       };
@@ -59,6 +82,31 @@ function App() {
     setLearningPath(null);
   };
 
+  const handleNavigate = (page: string) => {
+    switch (page) {
+      case 'welcome':
+        handleBackToWelcome();
+        break;
+      case 'dashboard':
+        if (assessment && learningPath) {
+          setCurrentState('dashboard');
+        }
+        break;
+      case 'practice':
+        setCurrentState('practice');
+        break;
+      case 'videos':
+        setCurrentState('videos');
+        break;
+      case 'theory':
+        setCurrentState('theory');
+        break;
+      case 'pdf':
+        setCurrentState('pdf');
+        break;
+    }
+  };
+
   const handleBackToAssessment = () => {
     setCurrentState('assessment');
   };
@@ -72,6 +120,10 @@ function App() {
   };
 
   const renderCurrentState = () => {
+    if (!user) {
+      return <LoginPage onGoogleSignIn={handleGoogleSignIn} />;
+    }
+
     switch (currentState) {
       case 'welcome':
         return <WelcomePage onStart={handleStart} />;
@@ -126,9 +178,29 @@ function App() {
     }
   };
 
+  const showNavigation = currentState !== 'welcome' && currentState !== 'assessment' && user;
+  const showBackButton = currentState !== 'welcome' && currentState !== 'dashboard' && user;
+  const userProfile = assessment ? {
+    stage: assessment.stage,
+    level: assessment.programmingLevel
+  } : undefined;
+
   return (
-    <div className="App">
-      {renderCurrentState()}
+    <div className="App min-h-screen bg-gradient-to-br from-space-dark via-space-blue to-dark-navy text-white">
+      {showNavigation && (
+        <Navigation
+          currentPage={currentState}
+          onNavigate={handleNavigate}
+          showBackButton={showBackButton}
+          onBack={handleBackToDashboard}
+          userProfile={userProfile}
+          onSignOut={handleSignOut}
+          user={user}
+        />
+      )}
+      <div className={showNavigation ? 'pt-0' : ''}>
+        {renderCurrentState()}
+      </div>
     </div>
   );
 }
