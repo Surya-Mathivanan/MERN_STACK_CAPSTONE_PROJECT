@@ -156,14 +156,7 @@ const PDFDownloader: React.FC<PDFDownloaderProps> = ({ onBack, assessment, learn
       <div className="max-w-5xl mx-auto relative z-10">
         {/* Header */}
         <div className="text-center mb-12 animate-fade-in">
-          <button
-            onClick={onBack}
-            className="inline-flex items-center text-pale-pink/60 hover:text-white mb-6 transition-colors duration-200 bg-space-light/30 hover:bg-space-light/50 px-4 py-2 rounded-xl border border-periwinkle/20 backdrop-blur-sm"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2" />
-            Back to Dashboard
-          </button>
-          
+           
           <div className="w-16 h-16 bg-gradient-to-br from-periwinkle to-dusty-rose rounded-2xl mx-auto mb-4 flex items-center justify-center animate-glow">
             <Download className="w-10 h-10 text-white" />
           </div>

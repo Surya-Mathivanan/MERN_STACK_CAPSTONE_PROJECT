@@ -98,7 +98,7 @@ const Navigation: React.FC<NavigationProps> = ({
                 className="text-pale-pink/70 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center space-x-2 transition-colors duration-200"
               >
                 <LogOut size={16} />
-                <span>Sign Out</span>
+                <span>Logout</span>
               </button>
             </div>
           </div>
@@ -178,7 +178,7 @@ const Navigation: React.FC<NavigationProps> = ({
                     className="w-full text-pale-pink/70 hover:text-white px-3 py-3 rounded-md text-sm font-medium flex items-center space-x-3 transition-colors duration-200"
                   >
                     <LogOut size={18} />
-                    <span>Sign Out</span>
+                    <span>Logout</span>
                   </button>
                 </div>
               </div>
