@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import WelcomePage from './components/WelcomePage';
 import AssessmentForm from './components/AssessmentForm';
 import SkillVerificationQuiz from './components/SkillVerificationQuiz';
@@ -11,6 +11,7 @@ import Navigation from './components/Navigation';
 import LoginPage from './components/LoginPage';
 import { UserAssessment, LearningPath } from './types';
 import { generateLearningPath } from './data/learningPaths';
+import { auth, googleProvider, signInWithPopup, signOut as firebaseSignOut } from './firebase';
 
 // Firebase imports would go here
 // import { initializeApp } from 'firebase/app';
@@ -24,23 +25,29 @@ function App() {
   const [learningPath, setLearningPath] = useState<LearningPath | null>(null);
   const [user, setUser] = useState<any>(null);
 
-  // Mock Firebase authentication - replace with actual Firebase auth
+  // Firebase Google authentication
   const handleGoogleSignIn = async () => {
-    // Mock successful login
-    const mockUser = {
-      displayName: 'Test User',
-      email: 'test@example.com',
-      photoURL: 'https://via.placeholder.com/150'
-    };
-    setUser(mockUser);
-    setCurrentState('welcome');
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const { displayName, email, photoURL, uid } = result.user;
+      setUser({ displayName, email, photoURL, uid });
+      setCurrentState('welcome');
+    } catch (error) {
+      console.error('Google sign-in failed (popup likely blocked):', error);
+    }
   };
 
-  const handleSignOut = () => {
-    setUser(null);
-    setCurrentState('welcome');
-    setAssessment(null);
-    setLearningPath(null);
+  const handleSignOut = async () => {
+    try {
+      await firebaseSignOut(auth);
+    } catch (error) {
+      console.error('Sign-out failed:', error);
+    } finally {
+      setUser(null);
+      setCurrentState('welcome');
+      setAssessment(null);
+      setLearningPath(null);
+    }
   };
 
   const handleStart = () => {
