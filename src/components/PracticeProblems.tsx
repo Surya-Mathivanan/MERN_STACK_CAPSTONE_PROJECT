@@ -3,9 +3,10 @@ import { ArrowLeft, BookOpen, Filter, Search, ExternalLink, Clock, TrendingUp, S
 
 interface PracticeProblemsProps {
   onBack: () => void;
+  userLevel: string;
 }
 
-const PracticeProblems: React.FC<PracticeProblemsProps> = ({ onBack }) => {
+const PracticeProblems: React.FC<PracticeProblemsProps> = ({ onBack, userLevel }) => {
   const [selectedDifficulty, setSelectedDifficulty] = useState('all');
   const [selectedPlatform, setSelectedPlatform] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -783,12 +784,29 @@ const PracticeProblems: React.FC<PracticeProblemsProps> = ({ onBack }) => {
     }
   ];
 
+  // Filter problems based on user level
+  const getAvailableDifficulties = (level: string) => {
+    switch (level.toLowerCase()) {
+      case 'beginner':
+        return ['easy'];
+      case 'intermediate':
+        return ['easy', 'medium'];
+      case 'advanced':
+        return ['medium', 'hard'];
+      default:
+        return ['easy', 'medium', 'hard'];
+    }
+  };
+
+  const availableDifficulties = getAvailableDifficulties(userLevel);
+
   const filteredProblems = problems.filter(problem => {
     const matchesDifficulty = selectedDifficulty === 'all' || problem.difficulty.toLowerCase() === selectedDifficulty;
     const matchesPlatform = selectedPlatform === 'all' || problem.platform.toLowerCase() === selectedPlatform;
     const matchesSearch = problem.title.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesUserLevel = availableDifficulties.includes(problem.difficulty.toLowerCase());
     
-    return matchesDifficulty && matchesPlatform && matchesSearch;
+    return matchesDifficulty && matchesPlatform && matchesSearch && matchesUserLevel;
   });
 
   const getDifficultyColor = (difficulty: string) => {
@@ -886,10 +904,10 @@ const PracticeProblems: React.FC<PracticeProblemsProps> = ({ onBack }) => {
               onChange={(e) => setSelectedDifficulty(e.target.value)}
               className="px-4 py-2 rounded-lg bg-space-light/50 border border-periwinkle/30 text-white focus:outline-none focus:ring-2 focus:ring-periwinkle/50 backdrop-blur-sm"
             >
-              <option value="all">All Difficulties</option>
-              <option value="easy">Easy</option>
-              <option value="medium">Medium</option>
-              <option value="hard">Hard</option>
+              <option value="all">All Available Difficulties</option>
+              {availableDifficulties.includes('easy') && <option value="easy">Easy</option>}
+              {availableDifficulties.includes('medium') && <option value="medium">Medium</option>}
+              {availableDifficulties.includes('hard') && <option value="hard">Hard</option>}
             </select>
             
             <select

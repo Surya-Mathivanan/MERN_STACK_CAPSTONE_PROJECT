@@ -163,7 +163,12 @@ function App() {
         ) : null;
       
       case 'practice':
-        return <PracticeProblems onBack={handleBackToDashboard} />;
+        return assessment ? (
+          <PracticeProblems
+            onBack={handleBackToDashboard}
+            userLevel={assessment.programmingLevel}
+          />
+        ) : null;
       
       case 'videos':
         return <VideoLearning onBack={handleBackToDashboard} />;
