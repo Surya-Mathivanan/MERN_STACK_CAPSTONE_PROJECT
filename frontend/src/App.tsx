@@ -93,8 +93,21 @@ function App() {
         // Save to MongoDB
         await apiService.saveAssessment(completedAssessment);
         setAssessment(completedAssessment);
-        const path = await generateLearningPathFromAPI(completedAssessment);
-        setLearningPath(path);
+        try {
+          const path = await generateLearningPathFromAPI(completedAssessment);
+          setLearningPath(path);
+        } catch (pathError) {
+          console.error('Error generating learning path:', pathError);
+          // Create a default learning path
+          const defaultPath = {
+            title: "DSA Learning Path",
+            description: "Your personalized learning journey",
+            duration: "12 weeks",
+            topics: ["Programming Fundamentals", "Data Structures", "Algorithms"],
+            dailyPlan: []
+          };
+          setLearningPath(defaultPath);
+        }
         setCurrentState('dashboard');
       } else {
         // Save initial assessment
@@ -108,8 +121,20 @@ function App() {
       if (userAssessment.programmingLevel === 'Beginner') {
         const completedAssessment = { ...userAssessment, verified: true };
         setAssessment(completedAssessment);
-        const path = await generateLearningPathFromAPI(completedAssessment);
-        setLearningPath(path);
+        try {
+          const path = await generateLearningPathFromAPI(completedAssessment);
+          setLearningPath(path);
+        } catch (pathError) {
+          console.error('Error generating learning path:', pathError);
+          const defaultPath = {
+            title: "DSA Learning Path",
+            description: "Your personalized learning journey",
+            duration: "12 weeks",
+            topics: ["Programming Fundamentals", "Data Structures", "Algorithms"],
+            dailyPlan: []
+          };
+          setLearningPath(defaultPath);
+        }
         setCurrentState('dashboard');
       } else {
         setAssessment(userAssessment);
