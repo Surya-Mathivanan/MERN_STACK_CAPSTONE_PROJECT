@@ -135,8 +135,9 @@ Create a `.env` file in the `backend` directory:
 ```env
 PORT=5000
 MONGODB_URI=mongodb://localhost:27017/mern_capstone
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
+GOOGLE_OAUTH_CLIENT_ID=your_google_client_id
+GOOGLE_OAUTH_CLIENT_SECRET=your_google_client_secret
+CALLBACK_URL=https://your-render-app.onrender.com/auth/google/callback
 JWT_SECRET=your_jwt_secret
 SESSION_SECRET=your_session_secret
 ```
@@ -226,7 +227,11 @@ Visit `http://localhost:5173` in your browser.
    - Use MongoDB Atlas for production database
    - Update `MONGODB_URI` in environment variables
 
-5. **Deploy:**
+5. **Google OAuth Setup:**
+   - Update the redirect URI in Google Cloud Console to: `https://your-render-app.onrender.com/auth/google/callback`
+   - Set `CALLBACK_URL` environment variable to the same URL
+
+6. **Deploy:**
    - Render will automatically deploy on git push
 
 ### Frontend Deployment on Vercel
@@ -246,7 +251,7 @@ Visit `http://localhost:5173` in your browser.
      - **Build Command:** `npm run build`
      - **Output Directory:** `dist`
    - Add environment variables:
-     - `VITE_API_BASE_URL` - Your Render backend URL
+     - `VITE_API_BASE_URL` - `https://mern-stack-capstone-project.onrender.com`
 
 4. **Update API Calls:**
    - Ensure frontend API calls point to production backend URL
