@@ -21,10 +21,12 @@ router.get(
       });
 
       // Redirect to frontend with token
-      res.redirect(`http://localhost:3000?token=${token}`);
+      const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+      res.redirect(`${frontendUrl}?token=${token}`);
     } catch (error) {
       console.error("JWT token generation error:", error);
-      res.redirect(`http://localhost:3000?error=authentication_failed`);
+      const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+      res.redirect(`${frontendUrl}?error=authentication_failed`);
     }
   }
 );

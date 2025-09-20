@@ -138,6 +138,7 @@ MONGODB_URI=mongodb://localhost:27017/mern_capstone
 GOOGLE_OAUTH_CLIENT_ID=your_google_client_id
 GOOGLE_OAUTH_CLIENT_SECRET=your_google_client_secret
 CALLBACK_URL=https://your-render-app.onrender.com/auth/google/callback
+FRONTEND_URL=https://your-vercel-app.vercel.app
 JWT_SECRET=your_jwt_secret
 SESSION_SECRET=your_session_secret
 ```
