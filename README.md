@@ -4,6 +4,61 @@
 
 This is a comprehensive MERN (MongoDB, Express.js, React, Node.js) stack capstone project designed as an educational platform. It provides a full-featured learning management system with user authentication, skill assessment, video learning modules, practice problems, and personalized learning paths.
 
+
+## 📊 Application Flow Diagram
+
+```mermaid
+graph TD
+    A[🏠 Welcome Page] --> B[📝 Assessment Form]
+    B --> C{Programming Level?}
+    
+    C -->|Beginner| D[✅ Skip Quiz - Auto Verify]
+    C -->|Intermediate/Advanced| E[🧪 Skill Verification Quiz]
+    
+    E --> F{Quiz Passed?}
+    F -->|Yes| G[✅ Maintain Level]
+    F -->|No| H[⬇️ Downgrade Level]
+    
+    D --> I[🎯 Generate Learning Path]
+    G --> I
+    H --> I
+    
+    I --> J[📱 Dashboard]
+    
+    J --> K[📚 Practice Problems]
+    J --> L[🎥 Video Learning]
+    J --> M[📖 Theory Content]
+    J --> N[📄 PDF Downloader]
+    
+    K --> O[LeetCode Problems]
+    K --> P[GeeksforGeeks Problems]
+    K --> Q[Codeforces Problems]
+    
+    L --> R[YouTube Tutorials]
+    L --> S[Educational Videos]
+    
+    M --> T[GeeksforGeeks Articles]
+    M --> U[JavaTPoint Resources]
+    M --> V[W3Schools Tutorials]
+    
+    N --> W[📋 Personalized Study Guide]
+    N --> X[🔗 Direct Problem Links]
+    N --> Y[📺 Video Recommendations]
+    
+    style A fill:#b300e6
+    style J fill:#b300e6
+    style K fill:#b300e6
+    style L fill:#b300e6
+    style M fill:#b300e6
+    style N fill:#b300e6
+    style B fill:#b300e6
+    style C fill:#b300e6
+    style I fill:#b300e6
+    style E fill:#b300e6
+```
+
+
+
 ## Features
 
 - **User Authentication**: Secure login/signup with Google OAuth integration
