@@ -9,7 +9,7 @@ interface DashboardProps {
   onBack?: () => void;
 }
 
-const Dashboard: React.FC<DashboardProps> = ({ assessment, learningPath, onSelectFeature, onBack }) => {
+const Dashboard: React.FC<DashboardProps> = ({ assessment, learningPath, onSelectFeature }) => {
   const features = [
     {
       id: 'practice' as const,
