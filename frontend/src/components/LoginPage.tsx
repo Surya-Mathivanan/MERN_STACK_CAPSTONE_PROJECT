@@ -15,6 +15,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ onGoogleSignIn }) => {
         <div className="absolute bottom-32 left-1/4 w-1.5 h-1.5 bg-pale-pink rounded-full animate-pulse delay-500"></div>
         <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-periwinkle rounded-full animate-pulse delay-700"></div>
         <div className="absolute bottom-20 right-10 w-2 h-2 bg-dusty-rose rounded-full animate-pulse delay-300"></div>
+        
+        {/* Floating orbs */}
         <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-gradient-to-r from-periwinkle/20 to-dusty-rose/20 rounded-full blur-xl animate-float"></div>
         <div className="absolute bottom-1/4 right-1/4 w-40 h-40 bg-gradient-to-r from-dusty-rose/20 to-pale-pink/20 rounded-full blur-xl animate-float delay-1000"></div>
       </div>
