@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import WelcomePage from './components/WelcomePage';
 import AssessmentForm from './components/AssessmentForm';
 import SkillVerificationQuiz from './components/SkillVerificationQuiz';
@@ -23,28 +23,46 @@ function App() {
   const [currentState, setCurrentState] = useState<AppState>('welcome');
   const [assessment, setAssessment] = useState<UserAssessment | null>(null);
   const [learningPath, setLearningPath] = useState<LearningPath | null>(null);
-  const [user, setUser] = useState<any>(null);
+  // Note: user state is loaded via apiService.getCurrentUser and stored in `assessment`/`learningPath`.
+  // Keep a local placeholder only if needed later.
+  const [authChecked, setAuthChecked] = useState<boolean>(false);
 
   // Handle OAuth callback and load user data
   useEffect(() => {
+    // Try to read token from either the query string (?token=...) or URL hash (#token=...)
     const urlParams = new URLSearchParams(window.location.search);
-    const token = urlParams.get('token');
+    let token = urlParams.get('token');
+
+    if (!token && window.location.hash) {
+      // Support backends that put the token in the hash fragment: #token=...
+      const hash = window.location.hash.replace(/^#/, '');
+      const hashParams = new URLSearchParams(hash);
+      token = hashParams.get('token');
+    }
+
+    const finishInit = () => {
+      // mark that we've attempted to read auth state from the URL/localStorage
+      setAuthChecked(true);
+    };
 
     if (token) {
       apiService.setToken(token);
-      // Clear the URL
+      // Clear the URL (remove token for cleanliness)
       window.history.replaceState({}, document.title, window.location.pathname);
-      loadUserData();
+      loadUserData().finally(finishInit);
     } else if (apiService.getToken()) {
       // User already has a token, load their data
-      loadUserData();
+      loadUserData().finally(finishInit);
+    } else {
+      // No token anywhere — mark check complete so login UI can show
+      finishInit();
     }
   }, []);
 
   const loadUserData = async () => {
     try {
       const userData = await apiService.getCurrentUser();
-      setUser(userData);
+      // user data will be used to populate assessment/learningPath below
       
       // Check if user has completed assessment
       if (userData.assessment && userData.assessment.stage) {
@@ -76,7 +94,6 @@ function App() {
     } catch (error) {
       console.error('Sign-out failed:', error);
     } finally {
-      setUser(null);
       setAssessment(null);
       setLearningPath(null);
     }
@@ -221,6 +238,11 @@ function App() {
   };
 
   const renderCurrentState = () => {
+    // Wait until we've checked URL/localStorage for a token before deciding what to show.
+    if (!authChecked) {
+      return null; // or a loading indicator
+    }
+
     if (!apiService.getToken()) {
       return <LoginPage onGoogleSignIn={handleGoogleSignIn} />;
     }
